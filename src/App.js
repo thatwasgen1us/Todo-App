@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import "./App.css";
-import NewTaskForm from "./components/NewTaskForm/NewTaskForm";
-import TaskList from "./components/TaskList/TaskList";
-import Footer from "./components/Footer/Footer";
+import './App.css';
+import NewTaskForm from './components/NewTaskForm/NewTaskForm';
+import TaskList from './components/TaskList/TaskList';
+import Footer from './components/Footer/Footer';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       todos: [],
-      filter: "All",
+      filter: 'All',
     };
   }
 
@@ -51,8 +51,8 @@ class App extends Component {
   filteredItems() {
     const { todos, filter } = this.state;
     return todos.filter(({ checked }) => {
-      const all = filter === "All";
-      const completed = filter === "Completed";
+      const all = filter === 'All';
+      const completed = filter === 'Completed';
       return all ? true : completed ? checked === true : checked === false;
     });
   }

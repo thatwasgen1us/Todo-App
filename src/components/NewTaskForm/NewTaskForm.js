@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class NewTaskForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: "",
+      value: '',
     };
   }
 
@@ -14,7 +14,7 @@ class NewTaskForm extends React.Component {
     const handleSubmit = (event) => {
       event.preventDefault();
       if (this.state.value.trim()) addItem(this.state.value);
-      this.setState({ value: "" });
+      this.setState({ value: '' });
     };
     return (
       <form onSubmit={handleSubmit} className="header">
@@ -40,8 +40,8 @@ NewTaskForm.propTypes = {
 };
 
 NewTaskForm.defaultProps = {
-  placeholder: "What needs to be done?",
-  title: "Todos",
+  placeholder: 'What needs to be done?',
+  title: 'Todos',
 };
 
 export default NewTaskForm;

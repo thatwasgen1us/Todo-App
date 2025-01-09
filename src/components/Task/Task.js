@@ -1,14 +1,14 @@
-import React from "react";
-import { formatDistanceToNow } from "date-fns";
-import KG from "date-fns/locale/en-AU";
-import PropTypes from "prop-types";
+import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import KG from 'date-fns/locale/en-AU';
+import PropTypes from 'prop-types';
 
 class Task extends React.Component {
   constructor() {
     super();
     this.state = {
       editing: false,
-      value: "",
+      value: '',
     };
   }
 
@@ -19,7 +19,7 @@ class Task extends React.Component {
       todo: { id },
     } = this.props;
     editItem(id, this.state.value);
-    this.setState({ value: "" });
+    this.setState({ value: '' });
     this.setState({ editing: false });
   }
 
@@ -29,7 +29,7 @@ class Task extends React.Component {
     return (
       <li
         className={
-          checked ? "completed" : this.state.editing ? "editing" : null
+          checked ? 'completed' : this.state.editing ? 'editing' : null
         }
       >
         <div className="view">

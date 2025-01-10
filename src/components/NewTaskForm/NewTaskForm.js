@@ -18,9 +18,8 @@ class NewTaskForm extends React.Component {
     };
     return (
       <form onSubmit={handleSubmit} className="header">
-        <h1>{title}</h1>
+        <h1 style={{ marginBlock: 33 + "px" }}>{title.toLowerCase()}</h1>
         <label>
-          Todo
           <input
             className="new-todo"
             placeholder={placeholder}

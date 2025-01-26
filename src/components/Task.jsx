@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Timer from "./Timer";
 
 export default class Task extends Component {
   constructor(props) {
@@ -63,34 +64,34 @@ export default class Task extends Component {
 
           return (
             <li key={el.id} className={`${el.done ? 'completed' : ''} ${el.editing ? 'editing' : ''}`}>
-              <div className="view" onClick={() => onToggleDone(el.id)}>
+              <div className="view">
                 <input
                   className="toggle"
                   type="checkbox"
-                  onChange={() => onToggleDone(el.id)}
                   checked={el.done}
+                  onChange={() => onToggleDone(el.id)}
                 />
                 <label>
-                  <span className="description">{el.title}</span>
-                  <span className="created">created {timeAgo}</span>
+                  <span className="title" onClick={() => onToggleDone(el.id)}>{el.title}</span>
+                  <Timer minutes={el.minutes} seconds={el.seconds}/>
+                  <span className="description">created {timeAgo}</span>
                 </label>
                 <button className="icon icon-edit" onClick={() => onEditing(el.id)}></button>
                 <button className="icon icon-destroy" onClick={() => this.handleDeleteTask(el.id)}></button>
-                <input className={el.input} type="checkbox" />
               </div>
-              {el.editing ? (
+              {el.editing && (
                 <input
                   type="text"
                   className="edit"
                   value={el.title}
-                  onChange={(e) => this.props.onEditChange(el.id, e.target.value)}
+                  onChange={(e) => onEditChange(el.id, e.target.value)} // Обработчик изменения
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       onEditing(el.id);
                     }
                   }}
                 />
-              ) : null}
+              )}
             </li>
           );
         })}

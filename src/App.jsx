@@ -7,9 +7,9 @@ import TaskList from './components/TaskList';
 export default class App extends Component {
   state = {
     data: [
-      { id: 1, title: 'Completed task', input: 'toggle', className: '', done: true, editing: false, createdAt: new Date() },
-      { id: 2, title: 'Editing task', input: 'toggle', className: '', done: false, editing: true, createdAt: new Date() },
-      { id: 3, title: 'Active task', input: 'toggle', className: '', done: false, editing: false, createdAt: new Date() },
+      { id: 1, title: 'Completed task', input: 'toggle', className: '', done: true, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
+      { id: 2, title: 'Editing task', input: 'toggle', className: '', done: false, editing: true, createdAt: new Date(), minutes: 0, seconds: 0 },
+      { id: 3, title: 'Active task', input: 'toggle', className: '', done: false, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
     ],
     filter: 'all'
   }
@@ -20,8 +20,8 @@ export default class App extends Component {
     }));
   }
 
-  addItem = (text, done = false) => {
-    if (!text.trim()) return;
+  addItem = ({title, seconds, minutes}) => {
+    if (!title.trim()) return;
     this.setState(({ data }) => {
       const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
       return {
@@ -29,12 +29,14 @@ export default class App extends Component {
           ...data,
           {
             id: newId,
-            title: text,
+            title: title,
             className: '',
             input: 'toggle',
-            done: done,
+            done: false,
             editing: false,
-            createdAt: new Date()
+            createdAt: new Date(),
+            minutes: minutes,
+            seconds: seconds
           }
         ]
       };

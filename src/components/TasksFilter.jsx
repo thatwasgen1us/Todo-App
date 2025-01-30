@@ -1,9 +1,5 @@
-import { Component } from "react"
 
-export default class TasksFilter extends Component {
-
-  render () {
-	const {setFilter, filter} = this.props
+const TasksFilter = ({setFilter, filter}) => {
 
 	return (
 		<ul className="filters">
@@ -17,6 +13,7 @@ export default class TasksFilter extends Component {
         <button onClick={() => setFilter('completed')} className={filter === 'completed' ? 'selected' : null}>Completed</button>
       </li>
     </ul>
-  )}
+  )
 }
 
+export default TasksFilter

@@ -1,86 +1,66 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Footer from './components/Footer';
 import NewTaskForm from './components/NewTaskForm';
 import TaskList from './components/TaskList';
 
-export default class App extends Component {
-  state = {
-    data: [
-      { id: 1, title: 'Completed task', input: 'toggle', className: '', done: true, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
-      { id: 2, title: 'Editing task', input: 'toggle', className: '', done: false, editing: true, createdAt: new Date(), minutes: 0, seconds: 0 },
-      { id: 3, title: 'Active task', input: 'toggle', className: '', done: false, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
-    ],
-    filter: 'all'
+const App = () => {
+  const [data, setData] = useState([
+    { id: 1, title: 'Completed task', input: 'toggle', className: '', done: true, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
+    { id: 2, title: 'Editing task', input: 'toggle', className: '', done: false, editing: true, createdAt: new Date(), minutes: 0, seconds: 0 },
+    { id: 3, title: 'Active task', input: 'toggle', className: '', done: false, editing: false, createdAt: new Date(), minutes: 0, seconds: 0 },
+  ]);
+  const [filter, setFilter] = useState('all');
+
+  const deleteItem = (id) => {
+    setData(data.filter(el => el.id !== id))
   }
 
-  deleteItem = (id) => {
-    this.setState(({ data }) => ({
-      data: data.filter(el => el.id !== id)
-    }));
-  }
-
-  addItem = ({title, seconds, minutes}) => {
+  const addItem = ({ title, seconds = 0, minutes = 0 }) => {
     if (!title.trim()) return;
-    this.setState(({ data }) => {
-      const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
-      return {
-        data: [
-          ...data,
-          {
-            id: newId,
-            title: title,
-            className: '',
-            input: 'toggle',
-            done: false,
-            editing: false,
-            createdAt: new Date(),
-            minutes: minutes,
-            seconds: seconds
-          }
-        ]
-      };
-    });
-  }
+    const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
+    setData([
+      ...data,
+      {
+        id: newId,
+        title: title,
+        className: '',
+        input: 'toggle',
+        done: false,
+        editing: false,
+        createdAt: new Date(),
+        minutes: minutes,
+        seconds: seconds
+      }
+    ]);
+  };
 
-  onToggleDone = (id) => {
-    this.setState(({ data }) => ({
-      data: data.map(item =>
+  const onToggleDone = (id) => {
+    setData(data.map(item =>
         item.id === id ? { ...item, done: !item.done } : item
       )
-    }));
+    )
   }
 
-  clearCompleted = () => {
-    this.setState(({data}) => ({
-      data: data.filter(el => el.done === false)
-    }))
-  }
+  const clearCompleted = () => {
+    setData(data.filter(el => el.done === false)
+    )}
 
-  onEditing = (id) => {
-    this.setState(({ data }) => ({
-      data: data.map(item =>
+
+  const onEditing = (id) => {
+    setData(data.map(item =>
         item.id === id ? { ...item, editing: !item.editing } : item
-      )
-    }));
+      ))
   }
 
-  onEditChange = (id, newTitle) => {
-    this.setState(({ data }) => {
-      return {
-        data: data.map(item =>
+
+  const onEditChange = (id, newTitle) => {
+    setData(data.map(item =>
           item.id === id ? { ...item, title: newTitle, done: false } : item
-        )
-      };
-    });
-  };
+      ))
+    };
 
-  setFilter = (filter) => {
-    this.setState({ filter });
-  };
-
-  getFilteredData = () => {
-    const { data, filter } = this.state;
+  const getFilteredData = () => {
     switch (filter) {
       case 'active':
         return data.filter(task => !task.done);
@@ -92,15 +72,14 @@ export default class App extends Component {
     }
   };
 
-  render() {
-    return (
-      <section className="todoapp">
-        <NewTaskForm addItem={this.addItem} />
-        <TaskList data={this.getFilteredData()} onDeleted={this.deleteItem} onToggleDone={this.onToggleDone} onEditing={this.onEditing} onEditChange={this.onEditChange}/>
-        <section className="main">
-          <Footer data={this.state.data} clearCompleted={this.clearCompleted} setFilter={this.setFilter} filter={this.state.filter}/>
-        </section>
+  return (
+    <section className="todoapp">
+      <NewTaskForm addItem={addItem} />
+      <TaskList data={getFilteredData()} onDeleted={deleteItem} onToggleDone={onToggleDone} onEditing={onEditing} onEditChange={onEditChange}/>
+      <section className="main">
+        <Footer data={data} clearCompleted={clearCompleted} setFilter={setFilter} filter={filter}/>
       </section>
-    );
-  }
+    </section>
+  );
 }
+export default App

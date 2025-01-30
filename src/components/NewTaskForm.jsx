@@ -1,45 +1,43 @@
-import { Component } from "react";
+import { useState } from "react";
 
-export default class NewTaskForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      newItem: '',
-      newSeconds: '',
-      newMinutes: '',
-    };
-  }
+const NewTaskForm = ({ addItem }) => {
+  const [newItem, setNewItem] = useState('')
+  const [newSeconds, setNewSeconds] = useState('')
+  const [newMinutes, setNewMinutes] = useState('')
 
-  handleKeyDown = (event) => {
-    if (event.key === 'Enter' && this.state.newItem.trim()) {
-      if (this.props.addItem) {
-        this.props.addItem({
-          title: this.state.newItem,
-          minutes: parseInt(this.state.newMinutes) || 0,
-          seconds: parseInt(this.state.newSeconds) || 0,
-        });
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && newItem.trim()) {
+      if (addItem) {
+      addItem({
+        title: newItem,
+        minutes: parseInt(newSeconds) || 0,
+        seconds: parseInt(newMinutes) || 0,
+      })
       } else {
         console.error("addItem function is not provided");
       }
-      this.setState({ newItem: '', newMinutes: '', newSeconds: '' });
+      setNewItem('')
+      setNewMinutes('')
+      setNewSeconds('');
     } else if (event.key === 'Escape') {
-      this.setState({ newItem: '', newMinutes: '', newSeconds: '' });
+      setNewItem('')
+      setNewMinutes('')
+      setNewSeconds('');
     }
   };
 
-  handleChangeItem = (event) => {
-    this.setState({ newItem: event.target.value });
+  const handleChangeItem = (event) => {
+  setNewItem(event.target.value);
   };
 
-  handleChangeMinutes = (event) => {
-    this.setState({ newMinutes: event.target.value });
+  const handleChangeMinutes = (event) => {
+    setNewMinutes(event.target.value);
   };
 
-  handleChangeSeconds = (event) => {
-    this.setState({ newSeconds: event.target.value });
+  const handleChangeSeconds = (event) => {
+    setNewSeconds(event.target.value);
   };
 
-  render() {
     return (
       <header className="header">
         <h1>todos</h1>
@@ -48,26 +46,28 @@ export default class NewTaskForm extends Component {
             className="new-todo"
             placeholder="What needs to be done?"
             autoFocus
-            value={this.state.newItem}
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleChangeItem}
+            value={newItem}
+            onKeyDown={handleKeyDown}
+            onChange={handleChangeItem}
           />
           <input
             className="new-todo-form__timer"
             placeholder="Min"
-            value={this.state.newMinutes}
-            onChange={this.handleChangeMinutes}
-            onKeyDown={this.handleKeyDown}
+            type="number"
+            value={newMinutes}
+            onChange={handleChangeMinutes}
+            onKeyDown={handleKeyDown}
           />
           <input
             className="new-todo-form__timer"
             placeholder="Sec"
-            value={this.state.newSeconds}
-            onChange={this.handleChangeSeconds}
-            onKeyDown={this.handleKeyDown}
+            type="number"
+            value={newSeconds}
+            onChange={handleChangeSeconds}
+            onKeyDown={handleKeyDown}
           />
         </form>
       </header>
     );
-  }
 }
+export default NewTaskForm
